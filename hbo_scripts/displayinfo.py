@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-
+# Inspired by 
+# Redesigned by me
+# Version 1.4
 import time
 import Adafruit_SSD1306
 import RPi.GPIO as GPIO
