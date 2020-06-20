@@ -1,4 +1,10 @@
 # Display_info
+got my insparation fron this website http://frederickvandenbosch.be/?p=1365
+
+And this instructable: https://www.instructables.com/id/PWM-Regulated-Fan-Based-on-CPU-Temperature-for-Ras/
+
+Did some changes to codes to fit my demands.. the goal is to make the best headless setup... more to come
+
 Get Raspberry pi info and send them to a 0.96" Oled display
 
 
