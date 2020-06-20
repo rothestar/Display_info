@@ -28,6 +28,8 @@ sudo reboot
 
 to update:
 cd /home/pi/hboscripts/
+
 git init
+
 git pull https://github.com/rothestar/hboscripts.git
 
