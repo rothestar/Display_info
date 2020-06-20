@@ -75,6 +75,6 @@ try:
 
 # If a keyboard interrupt occurs (ctrl + c), the GPIO is set to 0 and the program exits.
 except KeyboardInterrupt:
-    print("Fan ctrl interrupted by keyboard")
+    #print("Fan ctrl interrupted by keyboard")
     GPIO.cleanup()
     sys.exit()
