@@ -3,9 +3,9 @@ Get Raspberry pi info and send them to a 0.96" Oled display
 
 
 How to install and setup:
+at promps
 
-
-
+git clone https://github.com/rothestar/hboscripts.git
 
 
 change rc.local
@@ -21,4 +21,12 @@ exit 0
 
 ctrl+x to save changes
 
+to reboot:
+sudo reboot
+
+
+to update:
+cd /home/pi/hboscripts/
+git init
+git pull https://github.com/rothestar/hboscripts.git
 
