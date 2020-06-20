@@ -69,7 +69,7 @@ try:
             cpuTempOld = cpuTemp
 
         # Wait until next refresh
-        print("Temp:" + repr(cpuTemp) + " fanspeed: " + repr(fanSpeed))
+        #print("Temp:" + repr(cpuTemp) + " fanspeed: " + repr(fanSpeed))
         time.sleep(WAIT_TIME)
 
 
