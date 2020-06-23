@@ -124,7 +124,17 @@ def display_shutdown():
 	disp.image(image)
 	disp.display()
 	
-
+def display_reboot():
+	draw.rectangle((0,0,width,height), outline=0, fill=0)
+	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
+	font = ImageFont.load_default()
+	x = 0
+	y = 0
+	draw.text((x, y), ">>>reboot PI<<<", font=font, fill=255)
+	draw.text((x, 8), "Press action key", font=font, fill=255)
+	
+	disp.image(image)
+	disp.display()
 
 
 def display_custom(text):
@@ -211,7 +221,7 @@ while True:
 		if(not GPIO.input(select_switch)):
 			disp.command(Adafruit_SSD1306.SSD1306_DISPLAYON)
 			display += 1
-			if(display > 4):
+			if(display > 5):
 				display = 0
 			prev_millis = int(round(time.time() * 1000))
 
@@ -244,21 +254,29 @@ while True:
 				time.sleep(0.5)
 				disp.command(Adafruit_SSD1306.SSD1306_DISPLAYOFF)
 				os.system("sudo shutdown -h now")
+			elif(display == 5):
+				display_custom("Rebooting")
+				time.sleep(1.5)
+				disp.command(Adafruit_SSD1306.SSD1306_DISPLAYOFF)
+				os.system("sudo reboot")
 			prev_millis = int(round(time.time() * 1000))
 
 	if(display == 0):
 		display_time()
-		prev_shutdown = 0
+		prev_reboot = 0
 	elif(display == 1):
 		display_network()
-		prev_shutdown = 0
+		prev_reboot = 0
 	elif(display == 2):
 		display_stats()
-		prev_shutdown =0
+		prev_reboot =0
 	elif(display == 3):
 		display_black()
-		prev_shutdown = 0
+		prev_reboot = 0
 	elif(display == 4):
 		display_shutdown()
-		
+		prev_reboot = 0
+	elif(display == 5):
+		display_reboot()
+		#prev_reboot = 0
 	time.sleep(0.1)
