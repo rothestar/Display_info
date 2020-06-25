@@ -69,12 +69,12 @@ try:
             cpuTempOld = cpuTemp
 
         # Wait until next refresh
-        #print("Temp:" + repr(cpuTemp) + " fanspeed: " + repr(fanSpeed))
+        print("Temp:" + repr(cpuTemp) + " fanspeed: " + repr(fanSpeed))
         time.sleep(WAIT_TIME)
 
 
 # If a keyboard interrupt occurs (ctrl + c), the GPIO is set to 0 and the program exits.
 except KeyboardInterrupt:
-    #print("Fan ctrl interrupted by keyboard")
+    print("Fan ctrl interrupted by keyboard")
     GPIO.cleanup()
     sys.exit()
