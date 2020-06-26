@@ -21,7 +21,7 @@ def display_time():
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
 
 	# Set font type and size
-	font = ImageFont.truetype('/home/pi/hboscripts/infodisplay/Minecraftia.ttf', 16)
+	font = ImageFont.truetype('Minecraftia.ttf', 16)
 	#font = ImageFont.load_default()
 	# Position time
 	x_pos = (disp.width/2)-(string_width(font,current_time)/2)
@@ -31,7 +31,7 @@ def display_time():
 	draw.text((x_pos, y_pos), current_time, font=font, fill=255)
 
 	# Set font type and size
-	font = ImageFont.truetype('/home/pi/hboscripts/infodisplay/Minecraftia.ttf', 8)
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
 	#font = ImageFont.load_default()
 	# Position date
 	x_pos = (disp.width/2)-(string_width(font,current_date)/2)
@@ -77,7 +77,7 @@ def display_network():
 	
 def display_stats():
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
-	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
+	#font = ImageFont.truetype('Minecraftia.ttf', 8)
 	font = ImageFont.load_default()
 	cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
 	CPU = subprocess.check_output(cmd, shell = True )
@@ -103,23 +103,24 @@ def display_stats():
 
 def display_black():
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
-	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
-	font = ImageFont.load_default()
-	x = 0
-	y = 0
-	draw.text((x, y), "turn off screen", font=font, fill=255)
-	draw.text((x, 8), "Press action key", font=font, fill=255)
+	#font = ImageFont.truetype('Minecraftia.ttf', 8)
+	#font = ImageFont.load_default()
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
+	draw.text((0, -2), "turn off screen", font=font, fill=255)
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
+	draw.text((0, 18), "   Press action key", font=font, fill=255)
 	
 	disp.image(image)
 	disp.display()
 def display_shutdown():
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
-	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
-	font = ImageFont.load_default()
-	x = 0
-	y = 0
-	draw.text((x, y), ">>>turn off PI<<<", font=font, fill=255)
-	draw.text((x, 8), "Press action key", font=font, fill=255)
+	#font = ImageFont.truetype('Minecraftia.ttf', 8)
+	#font = ImageFont.load_default()
+	
+	font = ImageFont.truetype('Minecraftia.ttf', 16)
+	draw.text((0, -2), "turn off PI", font=font, fill=255)
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
+	draw.text((0, 18), "   Press action key", font=font, fill=255)
 	
 	disp.image(image)
 	disp.display()
@@ -128,10 +129,10 @@ def display_reboot():
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
 	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
 	font = ImageFont.load_default()
-	x = 0
-	y = 0
-	draw.text((x, y), ">>>reboot PI<<<", font=font, fill=255)
-	draw.text((x, 8), "Press action key", font=font, fill=255)
+	font = ImageFont.truetype('Minecraftia.ttf', 16)	
+	draw.text((0, -2), " Reboot PI", font=font, fill=255)
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
+	draw.text((0, 18), "   Press action key", font=font, fill=255)
 	
 	disp.image(image)
 	disp.display()
