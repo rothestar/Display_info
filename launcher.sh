@@ -3,9 +3,9 @@
 locale
 cd 
 cd /home/pi/hboscripts/infodisplay/
-sudo python ./infodisplay4.py &
+sudo python3 ./infodisplay4.py &
 cd
 cd /home/pi/hboscripts/fan/
-sudo python ./fanPWM.py &
+sudo python3 ./fanPWM.py &
 cd
  
