@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import time
 import Adafruit_SSD1306
@@ -7,6 +7,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 import subprocess, os
+import configparser
+
 
 def display_time():
 	# Collect current time and date
@@ -53,6 +55,10 @@ def display_network():
 	gateway = os.popen("route -n | grep '^0.0.0.0' | awk '{print $2}'").read()
 	ssid = os.popen("iwconfig wlan0 | grep 'ESSID' | awk '{print $4}' | awk -F\\\" '{print $2}'").read()
 
+	cmd = "hostname | cut -d\' \' -f1"
+	hostname = subprocess.check_output(cmd, shell = True )
+
+
 	# Clear image buffer by drawing a black filled box
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
 	padding = -1
@@ -61,16 +67,16 @@ def display_network():
 	x = 0
 	# Set font type and size
         #font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
-        font = ImageFont.load_default()
+	font = ImageFont.load_default()
 	# Draw SSID
-	draw.text((x, top), "SSID: "+ssid, font=font, fill=255)
+	draw.text((0, -2), "SSID: "+str(ssid), font=font, fill=255)
 	# Draw IP
-	draw.text((x, top+8), "IP: "+ipaddress, font=font, fill=255)
+	draw.text((0, 6), 'IP: '+str(ipaddress,'utf-8'), font=font, fill=255)
 	# Draw NM
 	#draw.text((x, top+16), "NM: "+netmask, font=font, fill=255)
 	# Draw GW
-	draw.text((x, top+16), "GW: "+gateway, font=font, fill=255)
-	
+	draw.text((0, 14), "GW: "+str(gateway), font=font, fill=255)
+	draw.text((0, 22), "Name: "+str(hostname,'utf-8'), font=font, fill=255)	
 	# Draw the image buffer
 	disp.image(image)
 	disp.display()
@@ -89,10 +95,10 @@ def display_stats():
 	temp = subprocess.check_output(cmd, shell = True )
 		# Write two lines of text.
 
-	draw.text((0, -2),     "CPU temp: "+ str(temp),  font=font, fill=255)
-	draw.text((0, 6),     str(CPU) , font=font, fill=255)
-	draw.text((0, 14),    str(MemUsage),  font=font, fill=255)
-	draw.text((0, 22),    str(Disk),  font=font, fill=255)
+	draw.text((0, -2),     "CPU temp: "+ str(temp,'utf-8'),  font=font, fill=255)
+	draw.text((0, 6),     str(CPU,'utf-8') , font=font, fill=255)
+	draw.text((0, 14),    str(MemUsage,'utf-8'),  font=font, fill=255)
+	draw.text((0, 22),    str(Disk,'utf-8'),  font=font, fill=255)
 
 	# Display image.
 	disp.image(image)
@@ -133,20 +139,30 @@ def display_reboot():
 	draw.text((0, -2), " Reboot PI", font=font, fill=255)
 	font = ImageFont.truetype('Minecraftia.ttf', 8)
 	draw.text((0, 18), "   Press action key", font=font, fill=255)
-	
 	disp.image(image)
 	disp.display()
 
-
+def display_changedefault():
+	displayget = config['User'].getint('startscreen')
+	draw.rectangle((0,0,width,height), outline=0, fill=0)
+	#font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
+	font = ImageFont.load_default()
+	font = ImageFont.truetype('Minecraftia.ttf', 8)	
+	draw.text((0, -2), " Start display "+str(displayget), font=font, fill=255)
+	font = ImageFont.truetype('Minecraftia.ttf', 8)
+	draw.text((0, 18), "   Press action key", font=font, fill=255)
+	disp.image(image)
+	disp.display()
+	
 def display_custom(text):
 	# Clear image buffer by drawing a black filled box
 	draw.rectangle((0,0,width,height), outline=0, fill=0)
 
 	# Set font type and size
         #font = ImageFont.truetype('fonts/Minecraftia.ttf', 8)
-        font = ImageFont.load_default()
+	font = ImageFont.load_default()
         # Position SSID
-        x_pos = (width/2) - (string_width(font,text)/2)
+	x_pos = (width/2) - (string_width(font,text)/2)
 	y_pos = (height/2) - (8/2)
 
 	# Draw SSID
@@ -206,12 +222,56 @@ font = ImageFont.load_default()
 
 # Create drawing object
 draw = ImageDraw.Draw(image)
+###########################################################
+#settingsfile section Begin
+###########################################################
+
+
+app_name = "hboscripts"
+
+
+
+config_folder = os.path.join(os.path.expanduser("~"), '.config', app_name)
+os.makedirs(config_folder, exist_ok=True)
+settings_file = "settings.conf"
+full_config_file_path = os.path.join(config_folder, settings_file)
+#print(full_config_file_path) 
+config = configparser.ConfigParser()
+ 
+config['DEFAULT'] = {"startscreen" : "0"}
+
+config['User'] = {"startscreen" : "0"}
+
+
+#config['User'] = {"sound" : "1", "music" : "1",
+#"volume" : "0.8", "resolution" : "1920x1080"}
+ 
+if(not os.path.exists(full_config_file_path)) or os.stat(full_config_file_path).st_size == 0:
+    with open(full_config_file_path, 'w') as configfile:
+        config.write(configfile)
+ 
+config.read(full_config_file_path)
+###########################################################
+##settingsfile section END
+###########################################################
+
+
+
+
 
 prev_millis = 0
-prev_social = 0
-display = 2 #set boot display
+
+#display = 2 #set boot display
+display = config['User'].getint('startscreen')
+
+print(display)
+no_of_displays=6
 time_format = True
 #black_out = True
+startcount=0
+
+
+
 
 while True:
 	millis = int(round(time.time() * 1000))
@@ -222,7 +282,7 @@ while True:
 		if(not GPIO.input(select_switch)):
 			disp.command(Adafruit_SSD1306.SSD1306_DISPLAYON)
 			display += 1
-			if(display > 5):
+			if(display > no_of_displays):
 				display = 0
 			prev_millis = int(round(time.time() * 1000))
 
@@ -260,7 +320,17 @@ while True:
 				time.sleep(1.5)
 				disp.command(Adafruit_SSD1306.SSD1306_DISPLAYOFF)
 				os.system("sudo reboot")
-			prev_millis = int(round(time.time() * 1000))
+			elif(display == 6):
+				startcount+=1
+				
+				if (startcount>no_of_displays):
+					startcount=0
+				config['User'] = {"startscreen" : str(startcount)}
+				print(full_config_file_path)
+				with open(full_config_file_path, 'w') as configfile:
+					config.write(configfile)
+				
+				prev_millis = int(round(time.time() * 1000))
 
 	if(display == 0):
 		display_time()
@@ -279,5 +349,8 @@ while True:
 		prev_reboot = 0
 	elif(display == 5):
 		display_reboot()
+	elif(display == 6):
+		display_changedefault()	
+	
 		#prev_reboot = 0
 	time.sleep(0.1)
