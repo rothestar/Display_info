@@ -13,17 +13,19 @@ at promps
 
 git clone https://github.com/rothestar/hboscripts.git
 
+cd /home/pi/hboscripts
 
-change rc.local
+make launcher executable:
 
-command:
-sudo nano /etc/rc.local
+chmod 755 launcher.sh
 
-add following lines:
+make the display start on boot:
 
-sudo python /home/pi/hboscripts/infodisplay/infodisplay4.py &
+sudo crontab –e
 
-sudo python /home/pi/hboscripts/fan/fan_ctrl.py &
+add the folloing line:
+
+@reboot sh /home/pi/hboscripts/launcher.sh
 
 exit 0
 
