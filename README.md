@@ -27,7 +27,7 @@ add the folloing line:
 
 @reboot sh /home/pi/hboscripts/launcher.sh
 
-exit 0
+
 
 ctrl+x to save changes
 
