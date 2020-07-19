@@ -10,6 +10,39 @@ Get Raspberry pi info and send them to a 0.96" Oled display
 
 How to install and setup:
 at promps
+sudo raspi-config
+
+set wifi contrycode
+enable I2C
+
+sudo reboot
+
+sudo apt install git
+
+sudo apt install python-smbus
+
+sudo apt install i2c-tools
+
+sudo apt install python-setuptoolsc
+
+sudo apt install python3-rpi.gpio
+
+sudo apt install python3-pip
+
+sudo apt install python3-pil
+
+sudo pip3 install getrpimodel
+
+pip3 install simple-pid
+
+
+git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git
+
+cd Adafruit_Python_SSD1306
+
+sudo python3 setup.py install
+
+
 
 git clone https://github.com/rothestar/hboscripts.git
 
