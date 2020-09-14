@@ -54,7 +54,7 @@ chmod 755 launcher.sh
 
 make the display start on boot:
 
-sudo crontab –e
+crontab –e
 
 add the folloing line:
 
