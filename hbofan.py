@@ -13,13 +13,13 @@ def getCPUtemperature():
 	return temp
 
 
-PWM_FREQ = 80	#change this if fan stutters or else behave strange
+PWM_FREQ = 25	#change this if fan stutters or else behave strange
 fanPin = 21 # The pin ID, edit here to change it
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(fanPin, GPIO.OUT)
 GPIO.setwarnings(False)
 myPWM=GPIO.PWM(fanPin,PWM_FREQ)
-myPWM.start(50)
+myPWM.start(40)
 pid = PID(-2, -0.8, -2)
 pid.setpoint = 45
 output=0
